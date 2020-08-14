@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzxa.dao.EmployeeDao">
+
+    <!--查询所有-->
+    <select id="findAll" resultType="com.yzxa.domain.Employee">
+        select * from employee_info ;
+    </select>
+
+    <select id="findById" parameterType="String" resultType="com.yzxa.domain.Employee">
+        select * from employee_info where id=#{id}
+    </select>
+
+    <delete id="deleteById" parameterType="String">
+        delete from employee_info where id=#{id}
+    </delete>
+    <insert id="addEmployee" parameterType="com.yzxa.domain.Employee">
+        insert into employee_info (name,age,gender,department,salary,grade)
+        values(#{name},#{age},#{gender},#{department},#{salary},#{grade})
+    </insert>
+
+    <update id="updateEmployee" parameterType="com.yzxa.domain.Employee">
+        update employee_info set name=#{name},age=#{age},gender=#{gender},department=#{department},salary=#{salary},grade=#{grade} where id=#{id}
+    </update>
+
+    <select id="finByParas" parameterType="Map" resultType="com.yzxa.domain.Employee">
+     select * from employee_info where 1=1
+     <if test="name !=null and name !=''">
+         and name like  concat('%',#{name},'%')
+     </if>
+    <if test="department !=null and department !=''">
+        and department like concat('%',#{department},'%')
+    </if>
+    <if test="salary !=null and salary !=''">
+        and salary == #{salary}
+    </if>
+    </select>
+
+    <delete id="BatchDeleteByIds"  >
+       delete from employee_info
+        <where>
+            <if test="ids != null and ids.size()>0">
+                <foreach collection="ids" open="id in (" item="id" close=")" separator=",">
+                  id=  #{id}
+                </foreach>
+            </if>
+        </where>
+    </delete>
+    <select id="findCount"  parameterType="Map" resultType="int">
+        select count(*) from employee_info where 1=1
+        <if test="name !=null and name !=''">
+            and name like  concat('%',#{name},'%')
+        </if>
+        <if test="department !=null and department !=''">
+            and department like concat('%',#{department},'%')
+        </if>
+        <if test="salary !=null and salary !=''">
+            and salary = #{salary}
+        </if>
+    </select>
+
+    <select id="findByStartAndEnd" resultType="com.yzxa.domain.Employee">
+        select * from employee_info where 1=1
+        <if test="name !=null and name !=''">
+            and name like  concat('%',#{name},'%')
+        </if>
+        <if test="department !=null and department !=''">
+            and department like concat('%',#{department},'%')
+        </if>
+        <if test="salary !=null and salary !=''">
+            and salary = #{salary}
+        </if>
+        limit #{start},#{end}
+    </select>
+
+
+</mapper>

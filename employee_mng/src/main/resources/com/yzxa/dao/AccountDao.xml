@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzxa.dao.AccountDao">
+
+    <!--查询所有-->
+    <select id="findAccountByAcount" resultType="com.yzxa.domain.Account">
+        select * from account_info where username=#{username} and password=#{password}
+    </select>
+    <select id="findByParams" resultType="com.yzxa.domain.Account">
+         select * from account_info where  1=1
+         <if test="name !=null and name !=''">
+             name=#{name}
+         </if>
+
+    </select>
+
+
+</mapper>
